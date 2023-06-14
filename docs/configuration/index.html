@@ -325,9 +325,28 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#delay-start" class="md-nav__link">
-    Delay Start
+  <a href="#advanced-settings" class="md-nav__link">
+    Advanced Settings
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cc-commands" class="md-nav__link">
+    cc Commands
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delayed-start" class="md-nav__link">
+    Delayed Start
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -335,11 +354,6 @@
   <a href="#network-address-translation-nat" class="md-nav__link">
     Network Address Translation (NAT)
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -705,9 +719,28 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#delay-start" class="md-nav__link">
-    Delay Start
+  <a href="#advanced-settings" class="md-nav__link">
+    Advanced Settings
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cc-commands" class="md-nav__link">
+    cc Commands
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delayed-start" class="md-nav__link">
+    Delayed Start
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -715,11 +748,6 @@
   <a href="#network-address-translation-nat" class="md-nav__link">
     Network Address Translation (NAT)
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -985,11 +1013,37 @@ spaces. In addition, each node in the topology must:</p>
 <li>specific VCPUs values (e.g., <code>1-4</code>)</li>
 <li>additional disk storage</li>
 <li>file injections</li>
-<li>labels, which are typically used by phēnix apps</li>
+<li>annotations and labels, which are typically used by phēnix apps</li>
+<li>advanced minimega VM settings</li>
+<li>minimega VM setting overrides</li>
+<li>minimega cc commands</li>
 <li>routing ruleset(s)</li>
-<li>delay triggered by <code>user</code>, <code>time</code>, or <code>c2</code> (command and control)</li>
+<li>delayed start triggered by <code>user</code>, <code>time</code>, or <code>c2</code> (command and control)</li>
 </ul>
-<h4 id="delay-start">Delay Start<a class="headerlink" href="#delay-start" title="Permanent link">&para;</a></h4>
+<h4 id="advanced-settings">Advanced Settings<a class="headerlink" href="#advanced-settings" title="Permanent link">&para;</a></h4>
+<p>There are minimega VM configuration settings that do not have a direct mapping
+to phēnix topology settings. In such cases, the <code>advanced</code> node configuration (a
+map of strings) can be used to configure these settings. For example, say a user
+wants to specify the graphics card to emulate. In minimega, the <code>vm config vga
+[value]</code> API call would be used. In phēnix, there's no existing setting for a
+node to specify the graphics card, but the following could be used to do the
+same thing.</p>
+<div class="codehilite"><pre><span></span><code>advanced:
+  vga: cirrus
+</code></pre></div>
+
+<h4 id="cc-commands">cc Commands<a class="headerlink" href="#cc-commands" title="Permanent link">&para;</a></h4>
+<p>Assuming the VM image being used for a phēnix node has the <code>miniccc</code> agent
+installed and configured to start at boot time, a user can use the <code>commands</code>
+node configuration (an array of strings) to specify arbitrary minimega cc
+(command and control) commands for the <code>miniccc</code> agent to run onces the VM is
+booted. For example, the following could be used to have a VM execute a command
+once it's booted.</p>
+<div class="codehilite"><pre><span></span><code>commands:
+- exec /path/to/exe args for exe
+</code></pre></div>
+
+<h4 id="delayed-start">Delayed Start<a class="headerlink" href="#delayed-start" title="Permanent link">&para;</a></h4>
 <p>It is possible to delay the start of a VM with the <code>delay</code> value. There are
 three options available to set, but on only one option can be set:</p>
 <ol>
@@ -1017,7 +1071,7 @@ tag in the Delay column next to the Screenshot column. The tag will indicate
 what type of dealy was set. Once all the delayed VMs have started, the Delay
 column will no longer be visible.</p>
 </div>
-<h4 id="network-address-translation-nat">Network Address Translation (NAT)<a class="headerlink" href="#network-address-translation-nat" title="Permanent link">&para;</a></h4>
+<h3 id="network-address-translation-nat">Network Address Translation (NAT)<a class="headerlink" href="#network-address-translation-nat" title="Permanent link">&para;</a></h3>
 <p>For nodes of type <code>Router</code>, basic source NAT can be configured to masquerade
 packets from one or more networks out a specific interface. For example, assume
 a router has three interfaces &mdash; <code>eth0, eth1, eth2</code>. <code>eth0</code> is connected to

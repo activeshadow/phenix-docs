@@ -87,11 +87,43 @@ Optional values for a node in the topology configuration can include:
 - specific VCPUs values (e.g., `1-4`)
 - additional disk storage
 - file injections
-- labels, which are typically used by phēnix apps
+- annotations and labels, which are typically used by phēnix apps
+- advanced minimega VM settings
+- minimega VM setting overrides
+- minimega cc commands
 - routing ruleset(s)
-- delay triggered by `user`, `time`, or `c2` (command and control)
+- delayed start triggered by `user`, `time`, or `c2` (command and control)
 
-#### Delay Start
+#### Advanced Settings
+
+There are minimega VM configuration settings that do not have a direct mapping
+to phēnix topology settings. In such cases, the `advanced` node configuration (a
+map of strings) can be used to configure these settings. For example, say a user
+wants to specify the graphics card to emulate. In minimega, the `vm config vga
+[value]` API call would be used. In phēnix, there's no existing setting for a
+node to specify the graphics card, but the following could be used to do the
+same thing.
+
+```
+advanced:
+  vga: cirrus
+```
+
+#### cc Commands
+
+Assuming the VM image being used for a phēnix node has the `miniccc` agent
+installed and configured to start at boot time, a user can use the `commands`
+node configuration (an array of strings) to specify arbitrary minimega cc
+(command and control) commands for the `miniccc` agent to run onces the VM is
+booted. For example, the following could be used to have a VM execute a command
+once it's booted.
+
+```
+commands:
+- exec /path/to/exe args for exe
+```
+
+#### Delayed Start
 
 It is possible to delay the start of a VM with the `delay` value. There are
 three options available to set, but on only one option can be set:
@@ -115,7 +147,7 @@ three options available to set, but on only one option can be set:
     what type of dealy was set. Once all the delayed VMs have started, the Delay
     column will no longer be visible.
 
-#### Network Address Translation (NAT)
+### Network Address Translation (NAT)
 
 For nodes of type `Router`, basic source NAT can be configured to masquerade
 packets from one or more networks out a specific interface. For example, assume
