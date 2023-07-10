@@ -348,6 +348,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#external-nodes" class="md-nav__link">
+    External Nodes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#example" class="md-nav__link">
     Example
   </a>
@@ -728,6 +735,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#external-nodes" class="md-nav__link">
+    External Nodes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#example" class="md-nav__link">
     Example
   </a>
@@ -957,15 +971,17 @@ type to the <code>phenix config create</code> command.</p>
 <p>The <code>Topology</code> configuration is one of the core configuration types for
 <code>phenix</code>, as it describes a network topology to be deployed in <code>minimega</code> that
 can be used by one or more experiments to be executed.</p>
-<p>A topology is comprised of one or more <em>nodes</em>, which is a VM, each
+<p>A topology is comprised of one or more <em>nodes</em>, which can either be a VM
+(<code>external: false</code> - the default) or an external node (<code>external: true</code>), each
 including system descriptions and configurations, as well as any networking
 settings required to connect all of the nodes in a topology together. This
 configuration becomes the basis for most of the minimega commands later created
-in the relevant minimega startup script.</p>
+in the relevant minimega startup script (at least for internal VMs).</p>
 <h3 id="default-settings">Default Settings<a class="headerlink" href="#default-settings" title="Permanent link">&para;</a></h3>
 <p>If left unmodified or unset, the following are the default settings for each
 node:</p>
 <ul>
+<li>external will be set to <code>false</code></li>
 <li>memory will be set to <code>512</code>MB</li>
 <li>vcpus will be set to <code>1</code></li>
 <li>snapshot will be set to <code>true</code></li>
@@ -1036,6 +1052,22 @@ configuration could be used.</p>
         - eth2
 </code></pre></div>
 
+<h3 id="external-nodes">External Nodes<a class="headerlink" href="#external-nodes" title="Permanent link">&para;</a></h3>
+<p>There may be cases where an experiment includes external devices (hardware in
+the loop) that should still be included in the topology for the purposes of the
+<a href="/state-of-health">State of Health</a> network diagram, state of health
+reachability checks, or for use by custom user apps. External nodes can be
+included in the topology by marking them as <code>external: true</code>. Among other
+things, this will prevent them from being deployed as a VM in minimega. The
+configuration schema for an external node in the topology is defined
+<a href="/schema/#external_node-schema">here</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Do not use <code>external: false</code> for internal nodes that should be deployed in
+minimega. Instead, don't include the <code>external</code> configuration key at all.
+This is a quirk of how we internally decide which node schema should be used
+(via <code>oneOf</code>).</p>
+</div>
 <h3 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h3>
 <p>A contrived, four node example &mdash; three VMs and a router &mdash; is given
 below, and is driven by the
