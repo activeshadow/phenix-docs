@@ -767,7 +767,13 @@
 </code></pre></div>
 
 <h4 id="soh-component"><code>soh</code> Component<a class="headerlink" href="#soh-component" title="Permanent link">&para;</a></h4>
-<p>The <code>soh</code> component allows users to execute the <a href="/state-of-health">State of Health</a> app at scheduled times throughout a Scorch run. This is handy when, for example, other Scorch components might cause nodes in the experiment to misbehave or fail. The component can be configured to limit which health checks are run, and can also be configured to fail if any of the health checks fail. The log level can also be configured, which will limit what logs get sent to the component's UI modal while the component is running.</p>
+<p>The <code>soh</code> component allows users to execute the <a href="/state-of-health">State of
+Health</a> app at scheduled times throughout a Scorch run. This
+is handy when, for example, other Scorch components might cause nodes in the
+experiment to misbehave or fail. The component can be configured to limit which
+health checks are run, and can also be configured to fail if any of the health
+checks fail. The log level can also be configured, which will limit what logs
+get sent to the component's UI modal while the component is running.</p>
 <div class="codehilite"><pre><span></span><code>spec:
   apps:
   - name: scorch
@@ -776,7 +782,8 @@
       - name: health-check
         type: soh
         metadata:
-          checks: # default is to run all the following checks
+          c2Timeout: 5s # if provided, will update the C2 timeout setting when this component runs the state of health app
+          checks:       # default is to run all the following checks
             - network-config       # Ensure all nodes still have network configured per the topology. Will use `skipInitialNetworkConfigTests` setting in soh app config.
             - reachability         # Basic ICMP-based reachability testing. Will use `testReachability` setting in soh app config.
             - custom-reachability  # IP-based reachability testing (TCP or UDP). Will use `testCustomReachability` setting in soh app config.
