@@ -270,22 +270,15 @@
       
         <li class="md-nav__item">
   <a href="#getting-started-with-phenix" class="md-nav__link">
-    Getting Started with phenix
+    Getting Started with phēnix
   </a>
   
-    <nav class="md-nav" aria-label="Getting Started with phenix">
+    <nav class="md-nav" aria-label="Getting Started with phēnix">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#installing-and-running-via-docker" class="md-nav__link">
     Installing and Running via Docker
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#installing-and-running-via-apt" class="md-nav__link">
-    Installing and Running via Apt
   </a>
   
 </li>
@@ -517,22 +510,15 @@
       
         <li class="md-nav__item">
   <a href="#getting-started-with-phenix" class="md-nav__link">
-    Getting Started with phenix
+    Getting Started with phēnix
   </a>
   
-    <nav class="md-nav" aria-label="Getting Started with phenix">
+    <nav class="md-nav" aria-label="Getting Started with phēnix">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#installing-and-running-via-docker" class="md-nav__link">
     Installing and Running via Docker
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#installing-and-running-via-apt" class="md-nav__link">
-    Installing and Running via Apt
   </a>
   
 </li>
@@ -586,9 +572,9 @@
 <h1 id="welcome">Welcome<a class="headerlink" href="#welcome" title="Permanent link">&para;</a></h1>
 <p>This is the documentation for the minimega <code>phenix</code> orchestration tool. <code>phenix</code>
 development happens in the
-<a href="https://github.com/sandia-minimega/phenix">sandia-minimega/phenix</a> GitHub
+<a href="https://github.com/sandialabs/sceptre-phenix">sandialabs/sceptre-phenix</a> GitHub
 repository.</p>
-<h2 id="getting-started-with-phenix">Getting Started with phenix<a class="headerlink" href="#getting-started-with-phenix" title="Permanent link">&para;</a></h2>
+<h2 id="getting-started-with-phenix">Getting Started with phēnix<a class="headerlink" href="#getting-started-with-phenix" title="Permanent link">&para;</a></h2>
 <p>The first step in using <code>phenix</code> is to get it installed. <code>phenix</code> needs access
 to the minimega unix socket, so the best place to deploy it is on a minimega
 cluster's head node. The minimega unix socket will be located at
@@ -596,107 +582,83 @@ cluster's head node. The minimega unix socket will be located at
 root, so unless the socket's group ownership and group write permissions have
 been updated, <code>phenix</code> will need to be run as root in order to access the
 socket.</p>
-<h3 id="installing-and-running-via-docker">Installing and Running via Docker<a class="headerlink" href="#installing-and-running-via-docker" title="Permanent link">&para;</a></h3>
-<p>A Docker image can be built by cloning the git repo and running the
-<code>docker-build.sh</code> script in the root of the repo.</p>
-<p>To run <code>phenix</code> as a Docker container, it will need to run in privileged mode
-and have access to the host network and some host directories. An example is
-below.</p>
-<div class="codehilite"><pre><span></span><code>docker run -d --name phenix \
-  --hostname=$(hostname) \
-  --network=host \
-  --privileged \
-  --volume=/dev:/dev \
-  --volume=/proc:/proc \
-  --volume=/phenix:/phenix \
-  --volume=/etc/phenix:/etc/phenix \
-  --volume=/tmp:/tmp \
-  --volume=/var/log/phenix:/var/log/phenix \
-  --volume=/etc/localtime:/etc/localtime:ro \
-  phenix phenix ui
-</code></pre></div>
-
-<ul>
-<li>
-<p><code>--hostname=$(hostname)</code>: set the container's hostname to be the same as the
-  host. This is mainly beneficial when gathering cluster node details.</p>
-</li>
-<li>
-<p><code>--network=host</code>: use the host's network stack in the container. Using
-  <code>--publish=3000:3000</code> is also a valid option.</p>
-</li>
-<li>
-<p><code>--privileged</code>, <code>--volume=/dev:/dev</code>, and <code>--volume=/proc:/proc</code>: needed for
-  building images with <code>phenix</code>. These options can be omitted if <code>phenix</code> won't
-  be used to build images.</p>
-</li>
-<li>
-<p><code>--volume=/phenix:/phenix</code>: <code>/phenix</code> is used as the base directory for
-  <code>phenix</code> by default (see <code>--base-dir.phenix</code> global option), so we share this
-  directory with the host to persist changes across container restarts.</p>
-</li>
-<li>
-<p><code>--volume=/etc/phenix:/etc/phenix</code>: the <code>phenix</code> config store is written to
-  <code>/etc/phenix/store.bdb</code> by default when <code>phenix</code> is run as root, so we share
-  this directory with the host so config changes persist across container
-  restarts.</p>
-</li>
-<li>
-<p><code>--volume=/tmp:/tmp</code>: <code>minimega</code> creates its Unix socket in <code>/tmp/minimega</code> by
-  default, so we share this directory with the host so <code>phenix</code> can have access
-  to the <code>minimega</code> socket. <code>phenix</code> also writes some files to <code>/tmp</code> that
-  <code>minimega</code> needs access to (e.g. injecting the <code>miniccc</code> agent into images),
-  which also makes this volume mount necessary.</p>
-</li>
-<li>
-<p><code>--volume=/var/log/phenix:/var/log/phenix</code>: <code>phenix</code> writes its logs to
-  <code>/var/log/phenix</code> by default when run as root. Sharing this directory with the
-  host makes it easier to debug issues if the container fails.</p>
-</li>
-<li>
-<p><code>--volume=/etc/localtime:/etc/localtime:ro</code>: set the container's timezone to
-  be the same as the host.</p>
-</li>
-</ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you build the Docker image manually, be sure to replace the last line in
-the command above with the tag used to build the image.</p>
+<p>In some cases, phēnix depends on recent features or bug fixes added to
+minimega by the phēnix development team, but not yet merged into the main
+minimega repo. To deal with this, the phēnix development team maintains a
+fork of minimega <a href="https://github.com/activeshadow/minimega">here</a> that
+includes a <code>latest</code> branch with all the features and bug fixes required by
+phēnix but not yet merged into the main repo. This <code>latest</code> branch is always
+kept up to date with the latest version of the main minimega repo, so it's
+safe to use this branch for phēnix all the time.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In most cases, it's much easier to deploy the latest version of both phēnix
+and minimega with Docker (see next section). The phēnix repository includes
+a Docker Compose file that will always ensure the required versions are
+working together correctly.</p>
+</div>
+<h3 id="installing-and-running-via-docker">Installing and Running via Docker<a class="headerlink" href="#installing-and-running-via-docker" title="Permanent link">&para;</a></h3>
+<p>The phēnix repository includes Docker resources in the <code>docker</code> directory. By
+far the easiest way to get phēnix up and running is to use the Docker Compose
+configuration located at <code>docker/docker-compose.yml</code>. This will ensure that the
+latest required version of minimega is also present and configured with the
+additional Linux tools required to operate correctly with phēnix.</p>
+<p>To run phēnix and minimega using Docker Compose, run the following command from
+the <code>docker</code> directory.</p>
+<div class="codehilite"><pre><span></span><code>docker compose up -d --build
+</code></pre></div>
+
+<p>The above command will first build the phenix and minimega Docker images and
+then start all the Docker services defined in the compose file in detached mode.</p>
+<p>Besides phēnix and minimega, there are two additional services defined in the
+compose file; one for ElasticSearch and one for Kibana. These are included in
+the compose file because they're often used with the Scorch phēnix application.
+If you don't need the ElasticSearch and Kibana services, you can prevent them
+from being started by specifying that only the <code>phenix</code> service (and its
+dependency service <code>minimega</code>) be brought up.</p>
+<div class="codehilite"><pre><span></span><code>docker compose up -d --build phenix
+</code></pre></div>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The Docker image will also include the <code>phenix</code> user apps available in the
+<a href="https://github.com/sandialabs/sceptre-phenix-apps">sandialabs/sceptre-phenix-apps</a>
+repo.</p>
 </div>
 <p>With <code>phenix</code> running in a container, it's useful to setup a bash alias for
 <code>phenix</code>:</p>
 <div class="codehilite"><pre><span></span><code>alias phenix=&quot;docker exec -it phenix phenix&quot;
 </code></pre></div>
 
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The Docker image will also include the <code>phenix</code> user apps available in the
-<a href="https://github.com/sandia-minimega/phenix-apps">sandia-minimega/phenix-apps</a>
-repo.</p>
-</div>
-<h3 id="installing-and-running-via-apt">Installing and Running via Apt<a class="headerlink" href="#installing-and-running-via-apt" title="Permanent link">&para;</a></h3>
-<p>A <code>minimega</code> Debian package is hosted at
-<a href="https://apt.sceptre.dev">https://apt.sceptre.dev</a> that includes all the
-<code>minimega</code> executables, as well as the <code>phenix</code> executable. The <code>minimega</code>
-executables in this package will be more up-to-date than the versioned Debian
-package released by the official <code>minimega</code> development team.</p>
-<p>When installed via the Debian package, <code>systemd</code> units get installed for
-<code>minimega</code>, <code>miniweb</code>, and <code>phenix</code>, and a <code>minimega</code> system group is created.
-Any user part of the <code>minimega</code> group can access minimega without having to run
-as root.</p>
-<p>Contrary to the <code>phenix</code> Docker image, the <code>phenix-apps</code> must be installed
-separately, but there's a Debian package for them too.</p>
-<p>See <a href="https://apt.sceptre.dev">https://apt.sceptre.dev</a> for instructions on
-adding the Apt repo and installing <code>phenix</code> (via the <code>minimega</code> package) and
-<code>phenix-apps</code>.</p>
+<p>Included below are explanations of some of the configuration options chosen to
+be used in the Docker Compose file.</p>
+<p>The Docker <code>privileged</code> mode, along with the <code>/dev</code> and <code>/proc</code> volume mounts,
+are needed for building QCOW2 VM images with phēnix. They can be omitted if
+phēnix won't be used to build images.</p>
+<p>The <code>/var/log/phenix</code> volume mount is shared with the host to make debugging
+failed container issues easier, since phēnix writes logs to <code>/var/log/phenix</code> by
+default when run as root.</p>
+<p>The <code>/etc/phenix</code> volume mount is shared with the host to persist phēnix
+configuration changes across container restarts, since the phēnix configuration
+store is written to <code>/etc/phenix/store.bdb</code> by default when run as root.</p>
+<p>The <code>/var/run/netns</code> volume mount is shared with the host to synchronize network
+namespaces created by phēnix taps between the phēnix and minimega containers.</p>
+<p>The <code>/phenix</code> volume mount is used as the base directory for phēnix by default
+(see <code>--base-dir.phenix</code> global option), so we share this directory with the
+host to persist changes across container restarts.</p>
 <h3 id="building-from-source">Building from Source<a class="headerlink" href="#building-from-source" title="Permanent link">&para;</a></h3>
-<p>To build locally, you will need Golang v1.14 and Node v14.2 installed. Once
-those are installed (if not already), simply run <code>make bin/phenix</code>.</p>
-<p>If you do not want to install Golang and/or Node locally, you can also use
-Docker to build phenix (assuming you have Docker installed). Simply run
-<code>./docker-build.sh</code> from the <code>phenix</code> directory and once built, the phenix
-binary will be available at <code>bin/phenix</code>. See <code>./docker-build.sh -h</code> for usage
-details.</p>
+<p>The easiest way to build from source is to use the Docker-based build script
+located at <code>hack/build/docker-build.sh</code> by running the following command from
+the root directory of the repository.</p>
+<div class="codehilite"><pre><span></span><code>hack/build/docker-build.sh
+</code></pre></div>
+
+<p>Once the build is finished, there will be a <code>phenix</code> executable located in the
+<code>bin</code> directory. For additional usage details, pass the <code>-h</code> option to the build
+script.</p>
 <h3 id="using">Using<a class="headerlink" href="#using" title="Permanent link">&para;</a></h3>
 <p>The following output results from <code>bin/phenix help</code>:</p>
 <div class="codehilite"><pre><span></span><code>A cli application for phenix
