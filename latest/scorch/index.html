@@ -411,6 +411,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#soh-component" class="md-nav__link">
+    soh Component
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#tap-component" class="md-nav__link">
     tap Component
   </a>
@@ -600,6 +607,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#soh-component" class="md-nav__link">
+    soh Component
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#tap-component" class="md-nav__link">
     tap Component
   </a>
@@ -712,6 +726,7 @@
 <ul>
 <li>break</li>
 <li>pause</li>
+<li>soh</li>
 <li>tap</li>
 </ul>
 <h4 id="break-component"><code>break</code> Component<a class="headerlink" href="#break-component" title="Permanent link">&para;</a></h4>
@@ -749,6 +764,38 @@
           duration: 2s
       runs:
       - start: [&quot;brief-pause&quot;]
+</code></pre></div>
+
+<h4 id="soh-component"><code>soh</code> Component<a class="headerlink" href="#soh-component" title="Permanent link">&para;</a></h4>
+<p>The <code>soh</code> component allows users to execute the <a href="/state-of-health">State of
+Health</a> app at scheduled times throughout a Scorch run. This
+is handy when, for example, other Scorch components might cause nodes in the
+experiment to misbehave or fail. The component can be configured to limit which
+health checks are run, and can also be configured to fail if any of the health
+checks fail. The log level can also be configured, which will limit what logs
+get sent to the component's UI modal while the component is running.</p>
+<div class="codehilite"><pre><span></span><code>spec:
+  apps:
+  - name: scorch
+    metadata:
+      components:
+      - name: health-check
+        type: soh
+        metadata:
+          c2Timeout: 5s # if provided, will update the C2 timeout setting when this component runs the state of health app
+          checks:       # default is to run all the following checks
+            - network-config       # Ensure all nodes still have network configured per the topology. Will use `skipInitialNetworkConfigTests` setting in soh app config.
+            - reachability         # Basic ICMP-based reachability testing. Will use `testReachability` setting in soh app config.
+            - custom-reachability  # IP-based reachability testing (TCP or UDP). Will use `testCustomReachability` setting in soh app config.
+            - processes            # Ensure processes are running in nodes. Will use `hostProcesses` setting in soh app config.
+            - ports                # Ensure listeners are running in nodes. Will use `hostListeners` setting in soh app config.
+            - custom               # Run custom tests in nodes. Will use `hostCustomTests` setting in soh app config.
+            - cpu-load             # Gather CPU load stats from nodes.
+            - flows                # Gather paket flows from ElasticSearch server. Requires `packetCapture` setting to be cofigured in soh app config.
+          failOnError: true # default is false
+          logLevel: debug   # default is info
+      runs:
+      - start: [&quot;health-check&quot;]
 </code></pre></div>
 
 <h4 id="tap-component"><code>tap</code> Component<a class="headerlink" href="#tap-component" title="Permanent link">&para;</a></h4>
