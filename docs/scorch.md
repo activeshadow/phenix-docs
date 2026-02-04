@@ -75,7 +75,7 @@ spec:
 
 #### `pause` Component
 
-The `pause` component is similar to the `break` component in that it pauses execution of the current Scorch run, but instead of waiting for user intervention, the `pause` component waits for a period of time before continuing. It can be configured with a fixed time or using a probability distribution. The `metadata` block accepts either `duration` (for a fixed time) or `random` (for random times). Random waits can be generated from uniform, gaussian, or exponential distributions. In each case, the distribution's parameters can be specified. 
+The `pause` component is similar to the `break` component in that it pauses execution of the current Scorch run, but instead of waiting for user intervention, the `pause` component waits for a configured duration before continuing.
 
 ```yaml
 spec:
@@ -87,38 +87,35 @@ spec:
         type: pause
         metadata:
           duration: 1m
+      runs:
+      - start:
+        - pause-1m
+```
+
+The `duration` field accepts Go duration strings (e.g., `10s`, `1m30s`, `2h`). If not specified, it defaults to `10s`.
+
+To use random durations, use the [replace](#replace) feature with a distribution specification:
+
+```yaml
+spec:
+  apps:
+  - name: scorch
+    metadata:
+      components:
       - name: pause-random
         type: pause
         metadata:
-          random: {}                   # default is a uniform distribution between 0 and 10 seconds
-      - name: pause-uniform
-        type: pause
-        metadata:
-        random:
-          uniform:                     # uniform distribution between minimum and maximum
-            minimum: 1s                # if minimum is not set, it defaults to 0s
-            maximum: 60s               # if maximum is not set, it defaults to 10s
-      - name: pause-gaussian
-        type: pause
-        metadata:
-          random:
-            gaussian:                  # gaussian distribution, mean and standard deviation can be set
-              mean: 10s                # these are the defaults if not set explicitly
-              stddev: 2s
-      - name: pause-exponential
-        type: pause
-        metadata:
-          random:
-            exponential:               # exponential distribution, only mean (1 / lambda) is set
-              mean: 10s                # this is the default if not set explicitly
+          duration: "{{PAUSE_DURATION}}s"
       runs:
-        - name: pauseathon
-          start:
-            - pause-1m
-            - pause-random
-            - pause-uniform
-            - pause-gaussian
-            - pause-exponential
+      - name: random-pause-run
+        replace:
+          "{{PAUSE_DURATION}}":
+            type: int
+            uniform:
+              minimum: 5
+              maximum: 10
+        start:
+        - pause-random
 ```
 
 #### `soh` Component
@@ -191,6 +188,72 @@ ovs-vsctl add-port phenix temp-tap tag=<vlan ID> -- set interface temp-tap type=
 The above commands assume the name of the minimega container is `minimega`. The name of the local tap created (in this case, `temp-tap`) can be whatever, but the value for the VLAN tag must match the numerical ID of the VLAN that's mapped to the VLAN alias used in the `tap` (or `break`) component configuration.
 
 > Using host networking mode for the `minimega` container allows for all the above nonsense to be skipped.
+
+## Replace
+
+> [!WARNING]
+> The `replace` feature applies changes to the entire component spec. Please choose placeholder names carefully!
+
+The `replace` feature allows dynamic substitution of values in component metadata at runtime. Replacements are defined per-run (or loop) and are resolved once when the run/loop starts, ensuring consistent values throughout the entire pipeline. This can be used to parameterize components, or introduce controlled randomness into experiments.
+
+Replacements are defined in the `replace` block of a run or loop. Each key is a placeholder string that will be replaced in component metadata. The type specifies how the replacement value is determined. Replaces can be 'stacked' like below, where the `{{RAND1}}` is defined at the run level and carries through to all subordinate loops, but `{{OVERRIDE}}` is overridden in each interior loop.
+
+An example scorch run:
+
+```yaml
+- name: scorch
+  metadata:
+    components:
+      - name: cc
+        type: cc
+        metadata:
+          vms:
+            - hostname: testy
+              start:
+                - type: exec
+                  args: 'echo "We have picked RAND1: {{RAND1}}, RAND2: {{RAND2}}, RAND3: {{RAND3}}, override: {{OVERRIDE}}'
+    runs:
+      - name: replacey
+        replace:
+          '{{RAND1}}': ['foo', 'bar', 'baz']
+          '{{OVERRIDE}}': ['run']
+        start: [ cc ]
+        loop:
+          count: 2
+          replace:
+            '{{RAND2}}':
+                type: int
+                uniform:
+                  minimum: 10
+                  maximum: 100
+            '{{OVERRIDE}}': ['loop 1']
+          start: [cc]
+          loop:
+            count: 3
+            replace:
+              '{{RAND3}}':
+                  type: float
+                  gaussian:
+                    mean: 100.123
+                    stddev: 10.456
+              '{{OVERRIDE}}': ['loop 2']
+            start: [cc]
+```
+
+Would result in the following commands:
+```bash
+echo "We have picked RAND1: bar, RAND2: {{RAND2}}, RAND3: {{RAND3}}, override: run"
+echo "We have picked RAND1: bar, RAND2: 19, RAND3: {{RAND3}}, override: loop 1"
+echo "We have picked RAND1: bar, RAND2: 19, RAND3: 86.97164992182161, override: loop 2"
+echo "We have picked RAND1: bar, RAND2: 19, RAND3: 114.48324331867562, override: loop 2"
+echo "We have picked RAND1: bar, RAND2: 19, RAND3: 95.97843337384487, override: loop 2"
+echo "We have picked RAND1: bar, RAND2: 82, RAND3: {{RAND3}}, override: loop 1"
+echo "We have picked RAND1: bar, RAND2: 82, RAND3: 91.0323724023587, override: loop 2"
+echo "We have picked RAND1: bar, RAND2: 82, RAND3: 96.65899272237336, override: loop 2"
+echo "We have picked RAND1: bar, RAND2: 82, RAND3: 94.85640056376343, override: loop 2"
+```
+
+The same resolved values are used across all stages (configure, start, stop, cleanup) and all subordinate loop iterations (until they are overridden). However, each new run of the same scorch pipeline will generate new replacement values, allowing for variability across runs.
 
 ### User-defined Components
 
