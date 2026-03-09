@@ -369,178 +369,177 @@ kind: Scenario
 metadata:
   name: scorch-demo
 spec:
-  scenario:
-    apps:
-    - name: mirror
+  apps:
+  - name: mirror
+    metadata:
+      directGRE:
+        enabled: true
+        mirrorBridge: phenix
+        mirrorNet: 172.30.0.0/16
+        mirrorVLAN: mirror
+    hosts:
+    - hostname: detector
       metadata:
-        directGRE:
-          enabled: true
-          mirrorBridge: phenix
-          mirrorNet: 172.30.0.0/16
-          mirrorVLAN: mirror
-      hosts:
-      - hostname: detector
+        interface: IF0
+        vlans:
+        - EXP
+  - name: scorch
+    metadata:
+      components:
+      - name: vmstats
+        type: vmstats
         metadata:
-          interface: IF0
-          vlans:
-          - EXP
-      - name: scorch
+          filebeat.inputs:
+          - enabled: true
+            type: log
+            json.add_error_key: true
+            paths:
+            - vm_stats.jsonl
+            processors:
+            - copy_fields:
+                fields:
+                - from: json
+                  to: scorch.vmstats
+            - drop_fields:
+                fields:
+                - json
+            - timestamp:
+                field: scorch.vmstats.UTC
+                layouts:
+                - '2006-01-02 15:04:05'
+      - name: hoststats
+        type: hoststats
+        background: true
         metadata:
-          components:
-          - name: vmstats
-            type: vmstats
-            metadata:
-              filebeat.inputs:
-              - enabled: true
-                type: log
-                json.add_error_key: true
-                paths:
-                - vm_stats.jsonl
-                processors:
-                - copy_fields:
-                    fields:
-                    - from: json
-                      to: scorch.vmstats
-                - drop_fields:
-                    fields:
-                    - json
-                - timestamp:
-                    field: scorch.vmstats.UTC
-                    layouts:
-                    - '2006-01-02 15:04:05'
-          - name: hoststats
-            type: hoststats
-            background: true
-            metadata:
-              filebeat.inputs:
-              - enabled: true
-                type: log
-                json.add_error_key: true
-                paths:
-                - host_stats.jsonl
-                processors:
-                - copy_fields:
-                    fields:
-                    - from: json
-                      to: scorch.hoststats
-                - drop_fields:
-                    fields:
-                    - json
-                - timestamp:
-                    field: scorch.hoststats.timestamp
-                    layouts:
-                    - UNIX_MS
-          - name: trafficgen
-            type: trafficgen
-            metadata:
-              scripts:
-                backgroundGen: /phenix/topologies/scorch-demo/scripts/background-gen.py
-                malwareGen: /phenix/topologies/scorch-demo/scripts/malware-gen.py
-                trafficServer: /phenix/topologies/scorch-demo/scripts/traffic-server.py
-              targets:
-              - backgroundClient:
-                  hostname: background-gen
-                  probability: 0.01
-                  rate: 10000
-                duration: 30
-                hostname: traffic-server
-                interface: IF0
-                malwareClient:
-                  hostname: malware-gen
-                  probability: 1.25
-                  rate: 20
-          - name: break
-            type: break
-            metadata: {}
-          - name: tcpdump
-            type: tcpdump
-            metadata:
-              convertToJSON: false
-              filebeat.inputs:
-              - enabled: true
-                type: log
-                paths:
-                - tcpdump.pcap.json
-                processors:
-                - copy_fields:
-                    fields:
-                    - from: json
-                      to: scorch.tcpdump
-                - drop_fields:
-                    fields:
-                    - json
-              vms:
-                detector: eth0
-          - name: snort
-            type: snort
-            metadata:
-              configs:
-              - dst: /etc/snort/snort.conf
-                name: snort
-                src: /phenix/topologies/scorch-demo/configs/snort.conf
-              - dst: /etc/snort/rules/emotet.rules
-                name: emotet
-                src: /phenix/topologies/scorch-demo/configs/emotet.rules
-              filebeat.inputs:
-              - enabled: true
-                type: log
-                json.add_error_key: true
-                paths:
-                - snort-stats.jsonl
-                processors:
-                - copy_fields:
-                    fields:
-                    - from: json
-                      to: scorch.snort
-                - drop_fields:
-                    fields:
-                    - json
-                - timestamp:
-                    field: scorch.snort.timestamp
-                    layouts:
-                    - UNIX
-              hostname: detector
-              scripts:
-                configSnort:
-                  executor: bash
-                  script: /phenix/topologies/scorch-demo/scripts/configure-snort.sh
-              sniffInterface: eth0
-              waitDuration: 5
-          runs:
-          - configure:
+          filebeat.inputs:
+          - enabled: true
+            type: log
+            json.add_error_key: true
+            paths:
+            - host_stats.jsonl
+            processors:
+            - copy_fields:
+                fields:
+                - from: json
+                  to: scorch.hoststats
+            - drop_fields:
+                fields:
+                - json
+            - timestamp:
+                field: scorch.hoststats.timestamp
+                layouts:
+                - UNIX_MS
+      - name: trafficgen
+        type: trafficgen
+        metadata:
+          scripts:
+            backgroundGen: /phenix/topologies/scorch-demo/scripts/background-gen.py
+            malwareGen: /phenix/topologies/scorch-demo/scripts/malware-gen.py
+            trafficServer: /phenix/topologies/scorch-demo/scripts/traffic-server.py
+          targets:
+          - backgroundClient:
+              hostname: background-gen
+              probability: 0.01
+              rate: 10000
+            duration: 30
+            hostname: traffic-server
+            interface: IF0
+            malwareClient:
+              hostname: malware-gen
+              probability: 1.25
+              rate: 20
+      - name: break
+        type: break
+        metadata: {}
+      - name: tcpdump
+        type: tcpdump
+        metadata:
+          convertToJSON: false
+          filebeat.inputs:
+          - enabled: true
+            type: log
+            paths:
+            - tcpdump.pcap.json
+            processors:
+            - copy_fields:
+                fields:
+                - from: json
+                  to: scorch.tcpdump
+            - drop_fields:
+                fields:
+                - json
+          vms:
+            detector: eth0
+      - name: snort
+        type: snort
+        metadata:
+          configs:
+          - dst: /etc/snort/snort.conf
+            name: snort
+            src: /phenix/topologies/scorch-demo/configs/snort.conf
+          - dst: /etc/snort/rules/emotet.rules
+            name: emotet
+            src: /phenix/topologies/scorch-demo/configs/emotet.rules
+          filebeat.inputs:
+          - enabled: true
+            type: log
+            json.add_error_key: true
+            paths:
+            - snort-stats.jsonl
+            processors:
+            - copy_fields:
+                fields:
+                - from: json
+                  to: scorch.snort
+            - drop_fields:
+                fields:
+                - json
+            - timestamp:
+                field: scorch.snort.timestamp
+                layouts:
+                - UNIX
+          hostname: detector
+          scripts:
+            configSnort:
+              executor: bash
+              script: /phenix/topologies/scorch-demo/scripts/configure-snort.sh
+          sniffInterface: eth0
+          waitDuration: 5
+      runs:
+      - configure:
+        - trafficgen
+        - snort
+        start:
+        - hoststats
+        - vmstats
+        loop:
+          execute:
+            configure: null
+            start:
+            - tcpdump
+            - snort
+            - trafficgen
+            stop:
             - trafficgen
             - snort
-            start:
-            - hoststats
-            - vmstats
-            loop:
-              execute:
-                configure: null
-                start:
-                - tcpdump
-                - snort
-                - trafficgen
-                stop:
-                - trafficgen
-                - snort
-                - tcpdump
-                cleanup: null
-            stop:
-            - vmstats
-            - hoststats
-            - break
-          - start:
             - tcpdump
-            - trafficgen
-            stop:
-            - trafficgen
-            - tcpdump
-          filebeat:
-            enabled: true
-            config:
-              output.elasticsearch:
-                hosts:
-                - es:9200
-              setup.dashboards.enabled: true
-              setup.kibana.host: http://kibana:5601
+            cleanup: null
+        stop:
+        - vmstats
+        - hoststats
+        - break
+      - start:
+        - tcpdump
+        - trafficgen
+        stop:
+        - trafficgen
+        - tcpdump
+      filebeat:
+        enabled: true
+        config:
+          output.elasticsearch:
+            hosts:
+            - es:9200
+          setup.dashboards.enabled: true
+          setup.kibana.host: http://kibana:5601
 ```

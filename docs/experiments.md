@@ -56,26 +56,38 @@ Aliases:
   experiment, exp
 
 Available Commands:
-  apps        List of available apps to assign an experiment
-  create      Create an experiment
-  delete      Delete an experiment
-  list        Display a table of available experiments
-  restart     Start an experiment
-  schedule    Schedule an experiment
-  schedulers  List of available schedulers to assign an experiment
-  start       Start an experiment
-  stop        Stop an experiment
+  apps            List of available apps to assign an experiment
+  create          Create an experiment
+  delete          Delete an experiment
+  edit            Edit an experiment
+  list            Display a table of available experiments
+  reconfigure     Reconfigure an experiment
+  restart         Restart an experiment
+  schedule        Schedule an experiment
+  schedulers      List of available schedulers to assign an experiment
+  scorch          Start a Scorch run for experiment
+  start           Start an experiment
+  stop            Stop an experiment
+  trigger-running Trigger running stage for app(s) in experiment
 
 Flags:
   -h, --help   help for experiment
 
 Global Flags:
-      --base-dir.minimega string   base minimega directory (default "/tmp/minimega")
-      --base-dir.phenix string     base phenix directory (default "/phenix")
-      --hostname-suffixes string   hostname suffixes to strip
-      --log.error-file string      log fatal errors to file (default "/root/.phenix.err")
-      --log.error-stderr           log fatal errors to STDERR
-      --store.endpoint string      endpoint for storage service (default "bolt:///root/.phenix.bdb")
+      --base-dir.minimega string     base minimega directory (default "/tmp/minimega")
+      --base-dir.phenix string       base phenix directory (default "/phenix")
+      --bridge-mode string           bridge naming mode for experiments ('auto' uses experiment name for bridge; 'manual' uses user-specified bridge name, or 'phenix' if not specified) (options: manual | auto)
+      --deploy-mode string           deploy mode for minimega VMs (options: all | no-headnode | only-headnode)
+      --hostname-suffixes string     hostname suffixes to strip (default "-minimega,-phenix")
+      --log.console string           output for console logs (text format) (stderr, stdout, or file path) (default "stderr")
+      --log.level string             level to log messages at (default "info")
+      --log.system.max-age int       maximum number of days to retain old log files (default 90)
+      --log.system.max-backups int   maximum number of old log files to retain (default 3)
+      --log.system.max-size int      maximum size in megabytes of the log file before it gets rotated (default 100)
+      --log.system.path string       path to system log (JSON format) (default "/var/log/phenix/phenix.log")
+      --store.endpoint string        endpoint for storage service (default "bolt:///etc/phenix/store.bdb")
+      --unix-socket string           phēnix unix socket to listen on (ui subcommand) or connect to (default "/tmp/phenix.sock")
+      --use-gre-mesh                 use GRE tunnels between mesh nodes for VLAN trunking
 
 Use "phenix experiment [command] --help" for more information about a command.
 ```

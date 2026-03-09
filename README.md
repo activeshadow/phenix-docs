@@ -1,58 +1,55 @@
-# phenix Documentation
+# phēnix Documentation
 
-We're using [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/)
-for documentation, with the [mike](https://github.com/jimporter/mike) plugin 
-for
-versioning.
+[![Deploy Documentation](https://github.com/sandialabs/sceptre-phenix-docs/actions/workflows/deploy.yml/badge.svg)](https://github.com/sandialabs/sceptre-phenix-docs/actions/workflows/deploy.yml)
+[![Docs](https://img.shields.io/badge/docs-latest-orange)](https://sandialabs.github.io/sceptre-phenix-docs/)
 
-## Deploy Latest Documentation
+This repository contains the source code and configuration for the official [phēnix documentation](https://sandialabs.github.io/sceptre-phenix-docs/).
 
-The `latest` version of the documents, which is the default, should only ever
-be
-built from the `main` branch, and should always be deployed to the `gh-pages`
-branch of the `sandialabs/sceptre-phenix-docs` repository (referenced here as
-the `upstream` remote).
+The documentation is built using [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) and versioned with [mike](https://github.com/jimporter/mike).
 
+## Automated Deployment
+
+Documentation is built and deployed automatically using GitHub Actions.
+
+- **`main` branch**: Pushing to `main` will automatically build and deploy the `latest` version of the docs.
+- **`dev` branch**: Pushing to `dev` will automatically build and deploy the `dev` version of the docs.
+
+The workflow will commit the built static site to the `gh-pages` branch and push it to the repository, publishing the changes. No manual deployment is necessary.
+
+> [!NOTE]
+> You will see a second workflow named **"pages-build-deployment"** running automatically after the deployment workflow completes.
+> This is the standard GitHub system workflow that takes the static files pushed to the `gh-pages` branch and actually serves them to the web.
+>
+> **Do not disable this workflow.** It is required for the site to be visible.
+
+### Previewing Feature Branches
+
+To preview documentation changes from a feature branch before merging:
+
+1. Go to the **Actions** tab in the repository.
+2. Select the **Deploy Documentation** workflow.
+3. Click **Run workflow**, select your feature branch, and click **Run workflow**.
+
+This will deploy a version named after your branch (e.g., `feat-new-docs`). When the corresponding Pull Request is closed, this preview version is automatically deleted.
+
+> [!IMPORTANT]
+> **Note for Forks:** To preview deployments on your own fork, you must enable GitHub Pages:
+>
+> 1.  Go to **Settings** > **Pages**.
+> 2.  Under **Build and deployment** > **Source**, select **Deploy from a branch**.
+> 3.  Under **Branch**, select `gh-pages` and `/ (root)`.
+> 4.  Click **Save**.
+>
+> Your site will be available at `https://<username>.github.io/sceptre-phenix-docs/`.
+
+## Build Docs Locally
+
+To build and serve the documentation locally, which includes the versioning selector, run:
 ```shell
-git remote add upstream https://github.com/sandialabs/sceptre-phenix-docs.git
-
-# If the gh-pages branch doesn't exist in your fork, do these two commands
-git checkout -b gh-pages upstream/gh-pages
-git push origin gh-pages
-
-git checkout main
-
-./mkdocs-helper.sh deploy --branch gh-pages latest
-
-git push upstream gh-pages:gh-pages
+make serve
 ```
 
-## Deploy Branch Documentation
-
-The `dev` version of the documents is meant to contain draft documentation for
-any phenix or phenix-apps branches currently being worked on. The workflow for
-doing so should be as follows:
-
-1. Create a branch in this repo that contains draft documentation. This should
-   not be done in the `dev` branch directly so drafts can be iteratively merged
-   into the `main` branch.
-2. Merge the draft branch into the `dev` branch.
-3. From the `dev` branch, run 
-   `./mkdocs-helper.sh deploy --branch gh-pages dev`.
-4. Deploy the updated development docs by running
-   `git push upstream gh-pages:gh-pages`.
-
-It's also possible to create a new version per draft branch if the situation
-warrants.
-
-## Build docs locally
-
-To build and host the docs locally, run the following command:
-```shell
-make serve-docs
-```
-
-The docs will be served on `localhost:8000` by a Docker container. 
-Any changes to the Markdown files or `mkdocs.yml` will trigger an 
-automatic rebuild while the container is running. This alleviates 
+The docs will be served on `localhost:8000` by a Docker container.
+Any changes to the Markdown files or `mkdocs.yml` will trigger an
+automatic rebuild while the container is running. This alleviates
 the need to run the command every time a change is made.

@@ -80,24 +80,31 @@ Usage:
 Examples:
 
   phenix image build <configuration name>
-  phenix image build --very-very-verbose --output </path/to/dir/>
+  phenix image build --very-verbose --output </path/to/dir/>
 
 Flags:
-  -c, --cache               Cache rootfs as tar archive
-      --dry-run             Do everything but actually call out to vmdb2
-  -h, --help                help for build
-  -o, --output string       Specify the output directory for the disk image to be saved to
-  -v, --verbose             Enable verbose output
-  -w, --very-verbose        Enable very verbose output
-  -x, --very-very-verbose   Enable very verbose output plus additional verbose output from debootstrap
+  -c, --cache           Cache rootfs as tar archive
+      --dry-run         Do everything but actually call out to vmdb2
+  -h, --help            help for build
+  -o, --output string   Specify the output directory for the disk image to be saved to
+  -v, --verbose         Enable verbose output
+  -x, --very-verbose    Enable very verbose output, additionally writes output log file to <image name>.log
 
 Global Flags:
-      --base-dir.minimega string   base minimega directory (default "/tmp/minimega")
-      --base-dir.phenix string     base phenix directory (default "/phenix")
-      --hostname-suffixes string   hostname suffixes to strip
-      --log.error-file string      log fatal errors to file (default "/var/log/phenix/error.log")
-      --log.error-stderr           log fatal errors to STDERR
-      --store.endpoint string      endpoint for storage service (default "bolt:///etc/phenix/store.bdb")
+      --base-dir.minimega string     base minimega directory (default "/tmp/minimega")
+      --base-dir.phenix string       base phenix directory (default "/phenix")
+      --bridge-mode string           bridge naming mode for experiments ('auto' uses experiment name for bridge; 'manual' uses user-specified bridge name, or 'phenix' if not specified) (options: manual | auto)
+      --deploy-mode string           deploy mode for minimega VMs (options: all | no-headnode | only-headnode)
+      --hostname-suffixes string     hostname suffixes to strip (default "-minimega,-phenix")
+      --log.console string           output for console logs (text format) (stderr, stdout, or file path) (default "stderr")
+      --log.level string             level to log messages at (default "info")
+      --log.system.max-age int       maximum number of days to retain old log files (default 90)
+      --log.system.max-backups int   maximum number of old log files to retain (default 3)
+      --log.system.max-size int      maximum size in megabytes of the log file before it gets rotated (default 100)
+      --log.system.path string       path to system log (JSON format) (default "/var/log/phenix/phenix.log")
+      --store.endpoint string        endpoint for storage service (default "bolt:///etc/phenix/store.bdb")
+      --unix-socket string           phēnix unix socket to listen on (ui subcommand) or connect to (default "/tmp/phenix.sock")
+      --use-gre-mesh                 use GRE tunnels between mesh nodes for VLAN trunking
 ```
 
 ## Miscellaneous Commands

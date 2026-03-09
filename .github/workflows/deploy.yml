@@ -1,0 +1,75 @@
+name: Deploy Documentation
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  # Allow manual triggering for feature branch previews
+  workflow_dispatch:
+  # Trigger cleanup when a PR is closed
+  pull_request:
+    types:
+      - closed
+
+# Cancel in-progress builds if a new commit is pushed to the same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Fetch all history for all tags and branches
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Configure Git User
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      # Automatic deployment for main -> latest
+      - name: Deploy documentation from main branch
+        if: github.ref == 'refs/heads/main'
+        run: mike deploy --push --update-aliases latest
+
+      # Automatic deployment for dev -> dev
+      - name: Deploy documentation from dev branch
+        if: github.ref == 'refs/heads/dev'
+        run: mike deploy --push dev
+
+      # Manual deployment for feature branches -> feat-branch-name
+      - name: Deploy documentation from feature branch (manual trigger)
+        # Only run if manually triggered AND not on main/dev (to avoid overwriting standard versions with raw branch names)
+        if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main' && github.ref != 'refs/heads/dev'
+        run: |
+          # Sanitize the branch name to be a valid version for 'mike'
+          VERSION=$(echo $GITHUB_REF_NAME | sed 's/[^a-zA-Z0-9]/-/g')
+          echo "Deploying version: $VERSION"
+          mike deploy --push $VERSION
+
+      # Automatic cleanup of feature branch deployments
+      - name: Delete documentation version for closed PR
+        if: github.event_name == 'pull_request' && github.event.action == 'closed'
+        run: |
+          # Sanitize the branch name using the same logic as deployment
+          VERSION=$(echo $GITHUB_HEAD_REF | sed 's/[^a-zA-Z0-9]/-/g')
+          echo "Deleting version: $VERSION"
+          # Attempt to delete, but don't fail if the version doesn't exist (e.g. wasn't deployed)
+          mike list | grep -q "^$VERSION$" && mike delete --push $VERSION || echo "Version $VERSION not found, skipping delete."

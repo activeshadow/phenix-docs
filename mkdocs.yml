@@ -62,4 +62,36 @@ markdown_extensions:
       pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+plugins:
+  - search
+
+nav:
+  - Home: index.md
+  - Configuration:
+    - Files: configuration.md
+    - Settings: settings.md
+    - Logging: logging.md
+    - Git Workflow: git-workflow.md
+  - Experiments:
+    - Overview: experiments.md
+    - VMs: vms.md
+    - VM Actions: vm-multi-action.md
+    - Images: image.md
+  - Apps:
+    - Overview: apps.md
+    - Examples: examples.md
+    - Scorch: scorch.md
+    - State of Health: state-of-health.md
+  - Networking:
+    - Netflow: netflow.md
+  - Administration:
+    - Users: user-administration.md
+  - Reference:
+    - Troubleshooting: troubleshooting.md
+    - Schema: schema.md

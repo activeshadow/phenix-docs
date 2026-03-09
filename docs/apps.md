@@ -11,7 +11,7 @@ their `running` stage only when manually triggered by the user.
 
 ## Default Apps
 
-|         |                                                                                              |
+| App     | Description                                                                                  |
 |---------|----------------------------------------------------------------------------------------------|
 | ntp     | provides/configures NTP service for experiment                                               |
 | serial  | configures serial interfaces in VM images                                                    |
@@ -26,7 +26,8 @@ There are two ways to configure the NTP app:
 - By specifying a VM node in the Topology with the label `ntp-server`, with the value for the label being the interface name to use as a destination IP for NTP clients. This method will result in all VMs in the Topology being configured for NTP.
 - By setting `defaultSource` in the `ntp` app metadata in Scenario. This method requires all VMs to be configured as NTP clients be listed in the `hosts` attribute.
 
-App Options. These are only needed if not using the VM label method as explained above.
+**App Options**:
+These are only needed if not using the VM label method as explained above.
 
 - `defaultSource`: NTP server to use if no label is specified in topology
   - `hostname`: hostname of NTP server in the topology to use as the source
@@ -141,9 +142,7 @@ spec:
 
 ### vrouter App
 
-As of commit `e276a5b`, the `vrouter` app also supports the use of minimega's
-`minirouter` to include interface configuration, DHCP and DNS configuration,
-firewall rules, etc.
+The `vrouter` app supports the use of minimega's `minirouter` to include interface configuration, DHCP and DNS configuration, firewall rules, etc.
 
 The following is an example of how the `vrouter` app can be configured via a
 `Scenario` configuration, showing all the possible options.
@@ -530,8 +529,10 @@ string over `STDIN`.
 
 The user app can modify the experiment at will, then return the updated
 JSON over `STDOUT` and exit with a `0` status. If the user app encounters an
-error, it can print any error messages to `STDERR` and exit with a non-zero
-status to signal to `phenix` that an error occurred.
+error, it should print error messages to `STDERR` and exit with a non-zero
+status. Logs written to `STDERR` must be single-line JSON objects
+containing `level`, `msg`, and `time` fields to be fully integrated into the
+phēnix centralized logging system.
 
 !!! note
     `phenix` will only process updates to the `spec` value for the `configure`
@@ -578,35 +579,64 @@ image used for every node in the experiment topology. Assuming the name of the
 executable for this app as `phenix-app-image-changer`, it could be applied to a
 topology by including a scenario in an experiment that includes an experiment
 app named `image-changer`.
+This example demonstrates best practices, including using the `phenix_apps` logger to produce structured JSON logs on `stderr`.
+
+!!! tip
+    Additional information on runnable reference user apps can be found in the [Examples section](examples.md).
 
 ```python
-import json, sys
+import json
+import sys
+from phenix_apps.common.logger import logger
 
+def main():
+    # The first argument is the lifecycle stage (e.g., 'pre-start')
+    try:
+        stage = sys.argv[1]
+    except IndexError:
+        logger.error("Lifecycle stage argument not provided.")
+        # Raising an exception is preferred over sys.exit()
+        # phēnix will capture the non-zero exit code.
+        raise ValueError("Missing stage argument")
 
-def eprint(*args):
-    print(*args, file=sys.stderr)
+    # Read the experiment JSON from stdin
+    try:
+        experiment = json.load(sys.stdin)
+    except json.JSONDecodeError:
+        logger.error("Failed to decode experiment JSON from stdin.")
+        raise
 
+    logger.info(f"Executing stage: {stage}")
 
-def main() :
-    if len(sys.argv) != 2:
-        eprint("must pass exactly one argument on the command line")
+    # Only modify the spec in the 'pre-start' or 'configure' stage
+    if stage in ["pre-start", "configure"]:
+        try:
+            spec = experiment['spec']
+            for node in spec['topology']['nodes']:
+                hostname = node.get("general", {}).get("hostname", "unknown")
+                logger.info("Processing node", hostname=hostname)
+                for drive in node['hardware']['drives']:
+                    original_image = drive['image']
+                    drive['image'] = 'm$.qc2'
+                    logger.debug(
+                        "Changed image for node",
+                        hostname=hostname,
+                        from_image=original_image,
+                        to_image=drive['image'],
+                    )
+        except (KeyError, TypeError) as e:
+            logger.exception("Failed to parse experiment spec to change image.")
+            raise
+
+    # Print the (potentially modified) experiment JSON to stdout
+    # This is how the app returns its changes to phēnix.
+    print(json.dumps(experiment))
+
+if __name__ == "__main__":
+    try:
+        main()
+    except Exception:
+        # phēnix will capture the non-zero exit code from the raised exception
+        # and log any messages written to stderr.
         sys.exit(1)
-
-
-    raw = sys.stdin.read()
-
-    if sys.argv[1] != 'pre-start':
-        print(raw)
-        sys.exit(0)
-
-
-    exp = json.loads(raw)
-    spec = exp['spec']
-
-    for n in spec['topology']['nodes']:
-        for d in n['hardware']['drives']:
-            d['image'] = 'm$.qc2'
-
-
-    print(json.dumps(exp))
 ```
