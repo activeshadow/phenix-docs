@@ -113,6 +113,15 @@ traffic will be forwarded through the phēnix UI server to the VM.
 Existing port forwards for a VM are listed in the same VM information
 modal, and can be removed by clicking the trash icon next to a forward.
 
+## Managing Listeners from the Local Web App
+
+The `serve`` command provides an option for also serving up a local web
+application for listing and managing listeners. It is disabled by default, and
+can be enabled with the ``--web-listen 127.0.0.1:8080` flag (the address or
+port can be changed if needed).
+
+![screenshot](images/tunneler_web_app.png)
+
 ## Managing Listeners from the Command Line
 
 While `phenix-tunneler serve` is running, use the following subcommands
