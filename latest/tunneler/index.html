@@ -13,10 +13,10 @@
       
       
       
-        <link rel="prev" href="../bridge-mode/">
+        <link rel="prev" href="../netflow/">
       
       
-        <link rel="next" href="../tunneler/">
+        <link rel="next" href="../api/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Netflow - phenix documentation</title>
+        <title>Tunneler - phenix documentation</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#experiment-netflow" class="md-skip">
+        <a href="#tunneler" class="md-skip">
           Skip to content
         </a>
       
@@ -119,7 +119,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Netflow
+              Tunneler
             
           </span>
         </div>
@@ -835,6 +835,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../netflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Netflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -854,7 +882,7 @@
   <span class="md-ellipsis">
     
   
-    Netflow
+    Tunneler
   
 
     
@@ -872,7 +900,7 @@
   <span class="md-ellipsis">
     
   
-    Netflow
+    Tunneler
   
 
     
@@ -898,13 +926,96 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
+  <a href="#downloading-the-tunneler" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Usage
+        Downloading the Tunneler
       
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#starting-the-tunneler-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Starting the Tunneler Server
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-port-forward-for-a-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating a Port Forward for a VM
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#managing-listeners-from-the-command-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Managing Listeners from the Command Line
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Managing Listeners from the Command Line">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        list
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#activate-id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        activate &lt;id&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deactivate-id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        deactivate &lt;id&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#move-id-port" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        move &lt;id&gt; &lt;port&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -912,34 +1023,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../tunneler/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Tunneler
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -1281,13 +1364,96 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
+  <a href="#downloading-the-tunneler" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Usage
+        Downloading the Tunneler
       
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#starting-the-tunneler-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Starting the Tunneler Server
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-port-forward-for-a-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating a Port Forward for a VM
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#managing-listeners-from-the-command-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Managing Listeners from the Command Line
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Managing Listeners from the Command Line">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        list
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#activate-id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        activate &lt;id&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deactivate-id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        deactivate &lt;id&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#move-id-port" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        move &lt;id&gt; &lt;port&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1311,44 +1477,150 @@
   
 
 
-<h1 id="experiment-netflow">Experiment Netflow<a class="headerlink" href="#experiment-netflow" title="Permanent link">&para;</a></h1>
-<p>The minimega platform supports <a href="https://sandia-minimega.github.io/#header_5.9">netflow
-capture</a>, wherein flows
-through an Open vSwitch bridge can be parsed into an ASCII format and forwarded
-to a remote endpoint for additional consumption.</p>
-<p>phēnix extends this capability by making the minimega netflow ASCII format
-available for streaming over WebSockets for experiments. The only requirement
-for enabling netflow for an experiment is that the experiment be configured to
-use a bridge name that is not the default <code>phenix</code> bridge. This can be done
-automatically for all experiments by enabling <a href="../bridge-mode/">auto bridge mode</a>,
-or per-experiment via the UI by expanding the <code>Options</code> section when creating a
-new experiment and providing the <code>Default Bridge Name</code> setting.</p>
-<p><img alt="screenshot" class="center" src="../images/create_exp_options.png" width="250" /></p>
+<h1 id="tunneler">Tunneler<a class="headerlink" href="#tunneler" title="Permanent link">&para;</a></h1>
+<p>The <code>phenix-tunneler</code> is a small application that runs on a user's local
+machine to forward TCP traffic from VMs in a running experiment down to
+local ports. This lets a user interact with a VM directly using command line tools, instead of having to go through noVNC in a browser. A common
+example is using a real RDP client to connect to a Windows VM instead of
+interacting with it through noVNC (which enables things like copy/paste
+support that noVNC does not).</p>
+<p>Traffic is proxied through the phēnix UI server over a WebSocket
+connection, so the local machine only needs network access to the phēnix
+UI.</p>
+<h2 id="downloading-the-tunneler">Downloading the Tunneler<a class="headerlink" href="#downloading-the-tunneler" title="Permanent link">&para;</a></h2>
+<p>Click on the <code>Tunneler</code> tab in the banner near the top of the phēnix UI.</p>
+<p><img alt="screenshot" src="../images/tunneler_tab.png" /></p>
+<p>This page lists the <code>phenix-tunneler</code> binaries built for the phēnix
+instance's version, along with a download link for each supported OS and
+architecture:</p>
+<table>
+<thead>
+<tr>
+<th>OS</th>
+<th>Architecture</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Linux</td>
+<td>amd64</td>
+</tr>
+<tr>
+<td>MacOS</td>
+<td>arm64</td>
+</tr>
+<tr>
+<td>MacOS</td>
+<td>amd64</td>
+</tr>
+<tr>
+<td>Windows</td>
+<td>amd64</td>
+</tr>
+</tbody>
+</table>
+<p>Download the binary that matches your local machine and make it
+executable (on Linux/MacOS, <code>chmod +x phenix-tunneler-&lt;os&gt;-&lt;arch&gt;</code>).</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The <code>Default Bridge Name</code> field is only shown when the server is running in
-<code>manual</code> bridge mode. In <code>auto</code> mode the bridge name is always the
-experiment name, so the field is hidden.</p>
+<p>The <code>Tunneler</code> tab, and its downloads, are only available if the
+phēnix server has been configured to serve tunneler binaries (a
+<code>downloads/tunneler</code> directory must exist alongside the phēnix
+binary on the server). This will be the case if you have a typical deployment using the Docker image.</p>
 </div>
-<p>This can also be done via the CLI by providing the <code>--default-bridge, -b</code> option
-when using the <code>phenix exp create</code> subcommand.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>As mentioned above, the experiment netflow capability <strong>will not work</strong> if a
-default bridge name is not explicitly specified for an experiment. This is
-to prevent network flows across multiple experiments from being captured.</p>
-</div>
-<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<p>Running experiments will have a green network icon to the left of the VM search
-box that, when clicked, will start netflow capture for the non-default bridge
-the experiment is configured to use for all VM network interfaces.</p>
-<p><img alt="screenshot" class="center" src="../images/exp_netflow_button.png" width="800" /></p>
-<p>Once enabled, the icon will turn red (to signify it can be stopped), and a new
-<code>Netflow</code> tab will appear next to the <code>VMs</code> and <code>Files</code> tabs for the running
-experiment. This tab will be updated with ASCII netflow data from minimega as it
-streams in.</p>
-<p><img alt="screenshot" class="center" src="../images/exp_netflow_tab.png" width="800" /></p>
-<p>To stop netflow capture for the experiment, click the red network icon.</p>
+<h2 id="starting-the-tunneler-server">Starting the Tunneler Server<a class="headerlink" href="#starting-the-tunneler-server" title="Permanent link">&para;</a></h2>
+<p>Once downloaded, start the tunneler's local proxy server with the <code>serve</code>
+subcommand, passing it the full URL to the phēnix UI:</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>phenix-tunneler<span class="w"> </span>serve<span class="w"> </span>https://phenix.example.com
+</span></code></pre></div>
+<p>If authentication is enabled in the phēnix UI, credentials must also be
+provided via one of the following flags:</p>
+<ul>
+<li><code>--username</code> (<code>-u</code>) -- the phēnix username to log in with. The tunneler
+  will prompt for the corresponding password (input is hidden) and use it
+  to log in to phēnix on your behalf.</li>
+<li><code>--auth-token</code> (<code>-t</code>) -- an existing phēnix API/JWT auth token, used in
+  place of a username/password login. The username is parsed directly out
+  of the token, so a separate <code>--username</code> isn't needed.</li>
+<li><code>--use-cookie</code> (<code>-c</code>) -- optional, only used alongside <code>--auth-token</code>.
+  Sets the name of a cookie to send the auth token in, in addition to the
+  <code>X-Phenix-Auth-Token</code> header, for phēnix deployments that expect the
+  token as a cookie.</li>
+</ul>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># log in interactively with a username/password</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>phenix-tunneler<span class="w"> </span>serve<span class="w"> </span>https://phenix.example.com<span class="w"> </span>--username<span class="w"> </span>jdoe
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># use an existing auth token instead of logging in</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>phenix-tunneler<span class="w"> </span>serve<span class="w"> </span>https://phenix.example.com<span class="w"> </span>--auth-token<span class="w"> </span>&lt;token&gt;
+</span></code></pre></div>
+<p>The <code>serve</code> command keeps running in the foreground and needs to stay
+running for as long as forwarded ports should remain reachable locally.
+While it runs, it:</p>
+<ul>
+<li>Connects to phēnix over a WebSocket and listens for port forward
+  create/delete events happening across the phēnix UI.</li>
+<li>Fetches the list of port forwards that already exist for the logged-in
+  user and creates local listeners for each of them.</li>
+<li>Automatically creates a new local listener any time the logged-in user
+  creates a new port forward for a VM in the phēnix UI (see below).</li>
+<li>Exposes a local Unix domain socket (at
+  <code>$TMPDIR/phenix/tunneler.sock</code>) that the other <code>phenix-tunneler</code>
+  subcommands (<code>list</code>, <code>activate</code>, <code>deactivate</code>, <code>move</code>) use to manage
+  listeners while <code>serve</code> is running.</li>
+</ul>
+<h2 id="creating-a-port-forward-for-a-vm">Creating a Port Forward for a VM<a class="headerlink" href="#creating-a-port-forward-for-a-vm" title="Permanent link">&para;</a></h2>
+<p>With <code>phenix-tunneler serve</code> running locally, create a port forward for a
+VM from the phēnix UI:</p>
+<ol>
+<li>Open a running experiment and click on a VM tile to open its VM
+   information modal.</li>
+<li>Click the <code>create port forward</code> button (the arrow icon). This button
+   requires the VM to be running with an active cc agent.</li>
+<li>Fill out the <code>Create New Port Forward</code> dialog:<ul>
+<li><code>Source Port</code> -- the port to listen on locally.</li>
+<li><code>Destination Host</code> -- the host, reachable from the phēnix server,
+  to forward traffic to (typically the VM's own IP address).</li>
+<li><code>Destination Port</code> -- the port on the destination host to forward
+  traffic to (e.g., <code>3389</code> for RDP).</li>
+</ul>
+</li>
+<li>Click <code>Create</code>.</li>
+</ol>
+<p>If the port forward was created by the same user that's logged into the
+running <code>phenix-tunneler serve</code> process, the local listener is activated
+automatically -- no further action is needed. Port forwards created by
+other users show up too, but must be activated manually (see
+<a href="#activate-id"><code>activate</code></a> below) before they can be used locally.</p>
+<p>Once a local port is listening, connect to it with whatever application
+is appropriate (an RDP client, a database client, <code>ssh</code>, etc.) and
+traffic will be forwarded through the phēnix UI server to the VM.</p>
+<p>Existing port forwards for a VM are listed in the same VM information
+modal, and can be removed by clicking the trash icon next to a forward.</p>
+<h2 id="managing-listeners-from-the-command-line">Managing Listeners from the Command Line<a class="headerlink" href="#managing-listeners-from-the-command-line" title="Permanent link">&para;</a></h2>
+<p>While <code>phenix-tunneler serve</code> is running, use the following subcommands
+(in another terminal) to inspect and manage local listeners.</p>
+<h3 id="list"><code>list</code><a class="headerlink" href="#list" title="Permanent link">&para;</a></h3>
+<p>Show a table of all known port forwards, including their local port and
+whether or not they're currently listening (activated) locally.</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>phenix-tunneler<span class="w"> </span>list
+</span></code></pre></div>
+<h3 id="activate-id"><code>activate &lt;id&gt;</code><a class="headerlink" href="#activate-id" title="Permanent link">&para;</a></h3>
+<p>Start listening locally on the local port assigned to the given listener
+ID. Used to manually activate a port forward that wasn't created by the
+logged-in user (and therefore wasn't activated automatically).</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>phenix-tunneler<span class="w"> </span>activate<span class="w"> </span>&lt;id&gt;
+</span></code></pre></div>
+<h3 id="deactivate-id"><code>deactivate &lt;id&gt;</code><a class="headerlink" href="#deactivate-id" title="Permanent link">&para;</a></h3>
+<p>Stop listening locally for the given listener ID, without deleting the
+port forward itself.</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>phenix-tunneler<span class="w"> </span>deactivate<span class="w"> </span>&lt;id&gt;
+</span></code></pre></div>
+<h3 id="move-id-port"><code>move &lt;id&gt; &lt;port&gt;</code><a class="headerlink" href="#move-id-port" title="Permanent link">&para;</a></h3>
+<p>Move an existing listener to a different local port.</p>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>phenix-tunneler<span class="w"> </span>move<span class="w"> </span>&lt;id&gt;<span class="w"> </span>&lt;port&gt;
+</span></code></pre></div>
+<p>Listener IDs used by <code>activate</code>, <code>deactivate</code>, and <code>move</code> can be found
+in the output of <code>phenix-tunneler list</code>.</p>
 
 
 

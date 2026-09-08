@@ -13,10 +13,10 @@
       
       
       
-        <link rel="prev" href="../bridge-mode/">
+        <link rel="prev" href="../tunneler/">
       
       
-        <link rel="next" href="../tunneler/">
+        <link rel="next" href="../git-workflow/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Netflow - phenix documentation</title>
+        <title>API - phenix documentation</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#experiment-netflow" class="md-skip">
+        <a href="#api" class="md-skip">
           Skip to content
         </a>
       
@@ -119,7 +119,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Netflow
+              API
             
           </span>
         </div>
@@ -758,20 +758,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
@@ -792,7 +790,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -835,37 +833,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Netflow
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../netflow/" class="md-nav__link">
         
   
   
@@ -881,37 +852,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Usage
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -956,18 +896,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
           <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
@@ -988,7 +930,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1003,10 +945,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../api/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1022,6 +991,59 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#interactive-api-docs-swaggeropenapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interactive API Docs (Swagger/OpenAPI)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authentication
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integrations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1281,10 +1303,32 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
+  <a href="#interactive-api-docs-swaggeropenapi" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Usage
+        Interactive API Docs (Swagger/OpenAPI)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authentication
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integrations
       
     </span>
   </a>
@@ -1311,44 +1355,66 @@
   
 
 
-<h1 id="experiment-netflow">Experiment Netflow<a class="headerlink" href="#experiment-netflow" title="Permanent link">&para;</a></h1>
-<p>The minimega platform supports <a href="https://sandia-minimega.github.io/#header_5.9">netflow
-capture</a>, wherein flows
-through an Open vSwitch bridge can be parsed into an ASCII format and forwarded
-to a remote endpoint for additional consumption.</p>
-<p>phēnix extends this capability by making the minimega netflow ASCII format
-available for streaming over WebSockets for experiments. The only requirement
-for enabling netflow for an experiment is that the experiment be configured to
-use a bridge name that is not the default <code>phenix</code> bridge. This can be done
-automatically for all experiments by enabling <a href="../bridge-mode/">auto bridge mode</a>,
-or per-experiment via the UI by expanding the <code>Options</code> section when creating a
-new experiment and providing the <code>Default Bridge Name</code> setting.</p>
-<p><img alt="screenshot" class="center" src="../images/create_exp_options.png" width="250" /></p>
+<h1 id="api">API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h1>
+<p>The phēnix web UI is built entirely on top of a REST API served by the phēnix
+daemon. That same API is available for external tooling and automation, such
+as CI/CD pipelines (see <a href="../git-workflow/">Git Workflow</a>) or custom scripts.</p>
+<h2 id="interactive-api-docs-swaggeropenapi">Interactive API Docs (Swagger/OpenAPI)<a class="headerlink" href="#interactive-api-docs-swaggeropenapi" title="Permanent link">&para;</a></h2>
+<p>Browsable, interactive API documentation is generated from the project's
+<a href="https://www.openapis.org/">OpenAPI</a> (Swagger) specification, and is
+available in two places:</p>
+<ul>
+<li><strong>On this documentation site</strong>: <a href="/swagger.html">swagger.html</a> (linked from
+  the gear icon in the footer) is a static snapshot of the API docs, rendered
+  from the <code>openapi.yml</code> spec at the time the docs were published.</li>
+<li>
+<p><strong>On a running phēnix server</strong>: every phēnix instance also hosts its own
+  copy of the same interactive API docs at the <code>/docs/</code> path:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>http://&lt;phenix-host&gt;:&lt;port&gt;/docs/
+</span></code></pre></div>
+<p>For a default local installation, this would be:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>http://localhost:3000/docs/
+</span></code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The <code>Default Bridge Name</code> field is only shown when the server is running in
-<code>manual</code> bridge mode. In <code>auto</code> mode the bridge name is always the
-experiment name, so the field is hidden.</p>
+<p><code>&lt;port&gt;</code> defaults to <code>3000</code> and comes from the <code>ui.listen-endpoint</code>
+setting. See <a href="../settings/">Settings</a> for details on configuring this.</p>
 </div>
-<p>This can also be done via the CLI by providing the <code>--default-bridge, -b</code> option
-when using the <code>phenix exp create</code> subcommand.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>As mentioned above, the experiment netflow capability <strong>will not work</strong> if a
-default bridge name is not explicitly specified for an experiment. This is
-to prevent network flows across multiple experiments from being captured.</p>
+<p>Because it's built into the phēnix binary/image itself, <code>/docs/</code> on a
+running server is always in sync with the version of phēnix you're
+running, whereas <a href="/swagger.html">swagger.html</a> reflects the spec as of
+the latest docs release.</p>
+</li>
+</ul>
+<p>The API docs are organized by tag (<code>Configs</code>, <code>Experiments</code>, <code>Virtual
+Machines</code>, <code>Hosts</code>, <code>Applications</code>, <code>Topologies</code>, <code>Disks</code>, <code>Users</code>, etc.) and
+document every available endpoint, including request parameters and response
+schemas.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The underlying OpenAPI spec is maintained at
+<a href="https://github.com/sandialabs/sceptre-phenix/blob/main/src/go/web/public/docs/openapi.yml"><code>src/go/web/public/docs/openapi.yml</code></a>
+in the <a href="https://github.com/sandialabs/sceptre-phenix">sceptre-phenix</a>
+repository, and is rendered to static HTML with
+<a href="https://github.com/Redocly/redoc">Redoc</a> as part of the phēnix build.</p>
 </div>
-<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<p>Running experiments will have a green network icon to the left of the VM search
-box that, when clicked, will start netflow capture for the non-default bridge
-the experiment is configured to use for all VM network interfaces.</p>
-<p><img alt="screenshot" class="center" src="../images/exp_netflow_button.png" width="800" /></p>
-<p>Once enabled, the icon will turn red (to signify it can be stopped), and a new
-<code>Netflow</code> tab will appear next to the <code>VMs</code> and <code>Files</code> tabs for the running
-experiment. This tab will be updated with ASCII netflow data from minimega as it
-streams in.</p>
-<p><img alt="screenshot" class="center" src="../images/exp_netflow_tab.png" width="800" /></p>
-<p>To stop netflow capture for the experiment, click the red network icon.</p>
+<h2 id="authentication">Authentication<a class="headerlink" href="#authentication" title="Permanent link">&para;</a></h2>
+<p>If UI/API authentication is enabled (see
+<a href="../user-administration/">User Authn/Authz</a>), API requests must include an
+auth token generated from the <code>Users</code> tab in the web UI, passed as the
+<code>X-phenix-auth-token</code> header:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>X-phenix-auth-token: ******
+</span></code></pre></div>
+<p>See <a href="../user-administration/#generating-user-authentication-tokens">Generating User Authentication Tokens</a>
+for details.</p>
+<h2 id="integrations">Integrations<a class="headerlink" href="#integrations" title="Permanent link">&para;</a></h2>
+<p>The phēnix API can be used to integrate phēnix with external systems. Known
+integrations include:</p>
+<ul>
+<li><a href="../git-workflow/">Git Workflow</a> - drive experiment topology/scenario
+  updates from a git-based CI/CD pipeline (e.g. a GitLab runner) reacting to
+  push events.</li>
+</ul>
 
 
 
